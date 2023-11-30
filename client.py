@@ -34,7 +34,7 @@ class Client:
         self.ascii_message = asciiEncode(self.caesar)
         self.binary_message = binaryEncode(self.ascii_message)
         self.plot_message = self.binary_message.copy()
-        self.encoded_message = HDB3Encode(self.plot_message)
+        self.encoded_message = Encode6B8B(self.plot_message)
 
     def send_message(self):
         self.plot_graph(self.plot_message, 'Enviado')
@@ -45,12 +45,12 @@ class Client:
 
     def receive_message(self):
         if self.is_host:
-            hdb3_code = self.conn.recv(1024).decode()
+            e6b8b_code = self.conn.recv(1024).decode()
         else:
-            hdb3_code = self.connection_socket.recv(1024).decode()
+            e6b8b_code = self.connection_socket.recv(1024).decode()
 
         bit_array = []
-        plot_data = list(''.join(hdb3_code))
+        plot_data = list(''.join(e6b8b_code))
         for bit in plot_data:
             if bit == '+':
                 bit_array.append(1)
@@ -64,8 +64,8 @@ class Client:
 
         self.plot_graph(bit_array, 'Recebido')
 
-        self.encoded_message = hdb3_code
-        self.binary_message = HDB3Decode(self.encoded_message)
+        self.encoded_message = e6b8b_code
+        self.binary_message = Decode6B8B(self.encoded_message)
         self.ascii_message = binaryDecode(self.binary_message)
         self.caesar = asciiDecode(self.ascii_message)
         self.text_message = caesar(self.caesar, 5, 0)

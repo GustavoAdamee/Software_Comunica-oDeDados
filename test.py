@@ -57,19 +57,19 @@ ascii_to_binary = binaryEncode(text_to_ascii)
 print('Binary Encode:')
 print(ascii_to_binary)
 
-binary_to_HDB3 = HDB3Encode(ascii_to_binary)
-print('HDB3 encode: ')
-print(binary_to_HDB3[0])
+binary_to_6B8B = Encode6B8B(ascii_to_binary)
+print('6B8B encode: ')
+print(binary_to_6B8B[0])
 print(ascii_to_binary)
 
 print(ascii_to_binary)
-# plot(text_to_ascii, ascii_to_binary, binary_to_HDB3[1], 'Encode', 'ASCII', 'Binary', 'HDB3')
+# plot(text_to_ascii, ascii_to_binary, binary_to_6B8B[1], 'Encode', 'ASCII', 'Binary', '6B8B')
 
-HDB3_to_binary = HDB3Decode(binary_to_HDB3[0])
-print('HDB3 decode:')
-print(HDB3_to_binary)
+e6B8B_to_binary = Decode6B8B(binary_to_6B8B[0])
+print('6B8B decode:')
+print(e6B8B_to_binary)
 
-binary_to_ascii = binaryDecode(HDB3_to_binary)
+binary_to_ascii = binaryDecode(e6B8B_to_binary)
 print('Binary decode:')
 print(binary_to_ascii)
 

@@ -50,116 +50,25 @@ def binaryDecode(array):
         values.append(int(i,2))
     return values
 
-def HDB3Encode(message):
-    amiMessage = AMIencoding(message)
-    hdb3Message = amiMessage
-
-    zerosCounter = 0
-    polarity = 0
-    iterator = 0
-
-    for bit in amiMessage:
-        if bit == 0:
-            zerosCounter += 1
-
-            if zerosCounter == 4:
-                zerosCounter = 0
-                if iterator == 3:
-                    hdb3Message[iterator] = -1 # Preventbinary_to_asciiing segFault
-                else:
-                    hdb3Message[iterator] = hdb3Message[iterator-4]
-                
-                if hdb3Message[iterator] == polarity:
-                    hdb3Message[iterator] = hdb3Message[iterator]*(-1)
-                    hdb3Message[iterator-3] = hdb3Message[iterator]
-                    i = iterator + 1
-                    while i < len(hdb3Message):
-                        hdb3Message[i] = hdb3Message[i]*(-1)
-                        i += 1
-
-                polarity = hdb3Message[iterator]
-
-        else:
-            zerosCounter = 0
-
-        iterator += 1
-
-        string_array  = []        
-        for bit in hdb3Message:
-            if bit == 1:
-                string_array.append('+')
-            elif bit == -1:
-                string_array.append('-')
-            else:
-                string_array.append('0')
-
-    return [''.join(string_array), hdb3Message]
-
-def HDB3Decode(message):
-    # splits the string into an array containing substrings with the fixed length of (size of 1 byte)
-    # array =  [string[i:i+8] for i in range(0, len(string), 8)] 
+def Encode6B8B(message):
     
-    bit_array = []
-    message = list(''.join(message))
-    for bit in message:
-            if bit == '+':
-                bit_array.append(1)
-            elif bit == '-':
-                bit_array.append(-1)
-            else:
-                bit_array.append(0)
+    return
 
-    decodedMessage = bit_array
-    polarity = 0
-    iterator = 0
+def Decode6B8B(message):
 
-    while iterator < len(bit_array):
-        if decodedMessage[iterator] != 0:
-            if bit_array[iterator] == polarity:
-                i = iterator-3
-                while i <= iterator:
-                    decodedMessage[i] = 0
-                    i += 1
-
-            polarity = decodedMessage[iterator]
-        
-        iterator += 1
-
-    iterator = 0
-    while iterator < len(decodedMessage):
-        if decodedMessage[iterator] == -1:
-            decodedMessage[iterator] = 1
-
-        iterator += 1
-
-    return decodedMessage
-
-# Turning the binary string into a Alternate Mark Inversion(AMI) string
-def AMIencoding(binaryMessage):
-    amiMessage = binaryMessage
-    polarity = 1
-    iterator = 0
-
-    for bit in binaryMessage:
-        if bit == 1:
-            amiMessage[iterator] = polarity
-            polarity = polarity*(-1)
-        
-        iterator += 1
-
-    return amiMessage
+    return
 
 def encode(message):
     text_to_ceaser = caesar(message,5,1)
     ceaser_to_ascii = asciiEncode(text_to_ceaser)
     ascii_to_binary = binaryEncode(ceaser_to_ascii)
-    binary_to_HDB3 = HDB3Encode(ascii_to_binary)
+    binary_to_6b8b = Encode6B8B(ascii_to_binary)
 
-    return binary_to_HDB3
+    return binary_to_6b8b
 
 def decode(message):
-    HDB3_to_binary = HDB3Decode(message)
-    binary_to_ascii = binaryDecode(HDB3_to_binary)
+    e6b8b_to_binary = Decode6B8B(message)
+    binary_to_ascii = binaryDecode(e6b8b_to_binary)
     ascii_to_ceaser = asciiDecode(binary_to_ascii)
     ceaser_to_text = caesar(ascii_to_ceaser,5,0)
 

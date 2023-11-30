@@ -4,7 +4,7 @@ from client import *
 class Interface:
     def __init__(self):
         self.window = tk.Tk()
-        self.window.title('HDB3 Client')
+        self.window.title('6B8B Client')
         self.window.columnconfigure(0, weight=1)
         self.window.rowconfigure(0, weight=1)
         self.window.geometry('205x160')
