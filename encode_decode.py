@@ -50,6 +50,7 @@ def binaryDecode(array):
         values.append(int(i,2))
     return values
 
+#TODO implement here the 6b8b encoding
 def Encode6B8B(message):
     
     return
