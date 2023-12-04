@@ -50,13 +50,101 @@ def binaryDecode(array):
         values.append(int(i,2))
     return values
 
+def aply_pre_def_table(chunk):
+    chunk_string = ''.join(str(e) for e in chunk)
+    #disparity -6
+    if chunk_string == '000000':
+        chunk_output_string = '01011001'
+    #disparity +6
+    elif chunk_string == '111111':
+        chunk_output_string = '01100110'
+    #disparity -4
+    elif chunk_string == '000001':
+        chunk_output_string = '01110001'
+    elif chunk_string == '000010':
+        chunk_output_string = '01110010'
+    elif chunk_string == '000100':
+        chunk_output_string = '01100101'
+    elif chunk_string == '001000':
+        chunk_output_string = '01101001'
+    elif chunk_string == '010000':
+        chunk_output_string = '01010011'
+    elif chunk_string == '100000':
+        chunk_output_string = '01100011'
+    #disparity +4
+    elif chunk_string == '111110':
+        chunk_output_string = '01001110'
+    elif chunk_string == '111101':
+        chunk_output_string = '01001101'
+    elif chunk_string == '111011':
+        chunk_output_string = '01011010'
+    elif chunk_string == '110111':
+        chunk_output_string = '01010110'
+    elif chunk_string == '101111':
+        chunk_output_string = '01101100'
+    elif chunk_string == '011111':
+        chunk_output_string = '01011100'
+    #disparity -2
+    elif chunk_string == '110000':
+        chunk_output_string = '01110100'
+    #disparity +2
+    elif chunk_string == '001111':
+        chunk_output_string = '01001011'
+    #control
+    elif chunk_string == '000111':
+        chunk_output_string = '01000111'
+    elif chunk_string == '010101':
+        chunk_output_string = '01010101'
+    elif chunk_string == '111000':
+        chunk_output_string = '01111000'
+    elif chunk_string == '101010':
+        chunk_output_string = '01101010'
+    else:
+        return False 
+    #transform the chunk into a list
+    chunk_output_list = list(chunk_output_string)
+    #transform the list into a list of ints
+    chunk_output_list = [int(i) for i in chunk_output_list]
+    return chunk_output_list
+    
 #TODO implement here the 6b8b encoding
 def Encode6B8B(message):
-    
-    return
+    # divide the message in 6 bits chunks
+    chunk_list = []
+    for i in range(0,len(message),6):
+        chunk = message[i:i+6]
+        chunk_list.append(chunk)
+    # if chunk is less than 6 bits, add 0s to the left and encode it
+    for chunk in chunk_list:
+        if len(chunk) != 6:
+            zeros_to_add = 6 - len(chunk)
+            for i in range(zeros_to_add):
+                chunk.insert(0,0)
+    # encode each chunk
+    final_chunk_list = []
+    for chunk in chunk_list:
+        processed_chunk = aply_pre_def_table(chunk)
+        if processed_chunk == False:
+            #get the amount of zeros and ones in the chunk
+            zeros = chunk.count(0)
+            ones = chunk.count(1)
+            disparity = ones - zeros
+            if disparity == 0:
+                chunk.insert(0,0)
+                chunk.insert(0,1)
+            elif disparity == 2: 
+                chunk.insert(0,0)
+                chunk.insert(0,0)
+            elif disparity == -2:
+                chunk.insert(0,1)
+                chunk.insert(0,1)
+            final_chunk_list.append(chunk)
+        else:
+            final_chunk_list.append(processed_chunk)
+    return final_chunk_list
 
 def Decode6B8B(message):
-
+    print('implement here the 6b8b decoding')
     return
 
 def encode(message):
