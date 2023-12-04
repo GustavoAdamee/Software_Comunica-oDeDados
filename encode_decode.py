@@ -1,4 +1,5 @@
 import socket
+import numpy as np
 
 def caesar(data, key, mode):
     alphabet = 'abcdefghijklmnopqrstuvwyzàáãâéêóôõíúçABCDEFGHIJKLMNOPQRSTUVWYZÀÁÃÂÉÊÓÕÍÚÇ'
@@ -40,6 +41,10 @@ def binaryEncode(array):
     return bit_values
 
 def binaryDecode(array):
+    array = np.array(array)
+    #concatenate the array into a string
+    array = np.concatenate(array)
+    print(array)
     #printar grafico aqui
     string_ints = [str(int) for int in array]
     string_ints = ''.join(string_ints)
@@ -107,7 +112,6 @@ def aply_pre_def_table(chunk):
     chunk_output_list = [int(i) for i in chunk_output_list]
     return chunk_output_list
     
-#TODO implement here the 6b8b encoding
 def Encode6B8B(message):
     # divide the message in 6 bits chunks
     chunk_list = []
@@ -143,9 +147,72 @@ def Encode6B8B(message):
             final_chunk_list.append(processed_chunk)
     return final_chunk_list
 
+def aply_decode_table(chunk):
+    chunk_string = ''.join(str(e) for e in chunk)
+    #disparity -6
+    if chunk_string == '01011001':
+        chunk_output_string = '000000'
+    #disparity +6
+    elif chunk_string == '01100110':
+        chunk_output_string = '111111'
+    #disparity -4
+    elif chunk_string == '01110001':
+        chunk_output_string = '000001'
+    elif chunk_string == '01110010':
+        chunk_output_string = '000010'
+    elif chunk_string == '01100101':
+        chunk_output_string = '000100'
+    elif chunk_string == '01101001':
+        chunk_output_string = '001000'
+    elif chunk_string == '01010011':
+        chunk_output_string = '010000'
+    elif chunk_string == '01100011':
+        chunk_output_string = '100000'
+    #disparity +4
+    elif chunk_string == '01001110':
+        chunk_output_string = '111110'
+    elif chunk_string == '01001101':
+        chunk_output_string = '111101'
+    elif chunk_string == '01011010':
+        chunk_output_string = '111011'
+    elif chunk_string == '01010110':
+        chunk_output_string = '110111'
+    elif chunk_string == '01101100':
+        chunk_output_string = '101111'
+    elif chunk_string == '01011100':
+        chunk_output_string = '011111'
+    #disparity -2
+    elif chunk_string == '01110100':
+        chunk_output_string = '110000'
+    #disparity +2
+    elif chunk_string == '01001011':
+        chunk_output_string = '001111'
+    #control
+    elif chunk_string == '01000111':
+        chunk_output_string = '000111'
+    elif chunk_string == '01010101':
+        chunk_output_string = '010101'
+    elif chunk_string == '01111000':
+        chunk_output_string = '111000'
+    elif chunk_string == '01101010':
+        chunk_output_string = '101010'
+    #transform the chunk into a list
+    chunk_output_list = list(chunk_output_string)
+    #transform the list into a list of ints
+    chunk_output_list = [int(i) for i in chunk_output_list]
+    return chunk_output_list
+
+#TODO implement the 6b8b decoding
 def Decode6B8B(message):
-    print('implement here the 6b8b decoding')
-    return
+    decoded_message = []
+    for chunk in message:
+        if chunk[0] == 0 and chunk[1] == 1:
+            decoded_message.append(aply_decode_table(chunk))
+        else:
+            chunk.pop(0)
+            chunk.pop(0)
+            decoded_message.append(chunk)
+    return decoded_message
 
 def encode(message):
     text_to_ceaser = caesar(message,5,1)
