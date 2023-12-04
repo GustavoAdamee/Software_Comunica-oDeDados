@@ -7,8 +7,16 @@ class Interface:
         self.window.title('6B8B Client')
         self.window.columnconfigure(0, weight=1)
         self.window.rowconfigure(0, weight=1)
-        self.window.geometry('205x160')
-        self.window.maxsize(405, 300)
+        self.window.maxsize(1200, 800)
+
+        # Center the window on the screen
+        screen_width = self.window.winfo_screenwidth()
+        screen_height = self.window.winfo_screenheight()
+        window_width = 640
+        window_height = 480
+        x_position = (screen_width - window_width) // 2
+        y_position = (screen_height - window_height) // 2
+        self.window.geometry(f'{window_width}x{window_height}+{x_position}+{y_position}')
 
         self.create_connection_toggle = tk.BooleanVar()
         self.local_connection_toggle = tk.BooleanVar()
@@ -37,20 +45,20 @@ class Interface:
         self.window.mainloop()
 
     def init_connection_frame(self):
-        tk.Label(self.connect_frame, text="Conectar").grid(column=0, row=0, sticky=tk.W)
+        tk.Label(self.connect_frame, text="Conectar", anchor=tk.CENTER).grid(column=0, row=0, sticky=tk.W)
 
-        tk.Checkbutton(self.connect_frame, text='Criar sessao', variable=self.create_connection_toggle, command=self.check_if_creating)\
+        tk.Checkbutton(self.connect_frame, text='Criar sessao', variable=self.create_connection_toggle, command=self.check_if_creating) \
             .grid(column=0, row=1, sticky=(tk.W, tk.E, tk.S, tk.N))
 
         self.local_connection_checkbutton.config(text="Conexao local", variable=self.local_connection_toggle, command=self.check_if_local)
         self.local_connection_checkbutton.grid(column=0, row=2, sticky=(tk.W, tk.E, tk.S, tk.N))
 
-        tk.Label(self.connect_frame, text="Host").grid(column=0, row=3, sticky=(tk.W, tk.E))
+        tk.Label(self.connect_frame, text="Host", anchor=tk.CENTER).grid(column=0, row=3, sticky=(tk.W, tk.E))
 
         self.host_entry.configure(width=7, textvariable=self.host)
         self.host_entry.grid(column=1, row=3, sticky=(tk.W, tk.E, tk.S, tk.N))
 
-        tk.Label(self.connect_frame, text="Port").grid(column=0, row=4, sticky=(tk.W, tk.E, tk.S, tk.N))
+        tk.Label(self.connect_frame, text="Port", anchor=tk.CENTER).grid(column=0, row=4, sticky=(tk.W, tk.E, tk.S, tk.N))
 
         tk.Entry(self.connect_frame, width=7, textvariable=self.port).grid(column=1, row=4, sticky=(tk.W, tk.E, tk.S, tk.N))
 
