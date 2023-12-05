@@ -59,13 +59,24 @@ print(ascii_to_binary)
 
 binary_to_6B8B = Encode6B8B(ascii_to_binary)
 print('6B8B encode: ')
-print(binary_to_6B8B[0])
-print(ascii_to_binary)
+print(binary_to_6B8B)
+# print(ascii_to_binary)
 
-print(ascii_to_binary)
-# plot(text_to_ascii, ascii_to_binary, binary_to_6B8B[1], 'Encode', 'ASCII', 'Binary', '6B8B')
+#plottando os graficos
+#concatenando os dados para plotar
+array = np.array(binary_to_6B8B)
+#concatenate the array into a string
+array = np.concatenate(array).astype(int)
+if plt.fignum_exists(True):
+    plt.close()
+plt.rcParams["figure.autolayout"] = True
+plt.title('teste')
+index = list(np.arange(len(array)))
+plt.hlines(y = 0, xmin = 0, xmax = len(array), linewidth = 1)
+plt.bar(index, array)
+plt.show()
 
-e6B8B_to_binary = Decode6B8B(binary_to_6B8B[0])
+e6B8B_to_binary = Decode6B8B(binary_to_6B8B)
 print('6B8B decode:')
 print(e6B8B_to_binary)
 
