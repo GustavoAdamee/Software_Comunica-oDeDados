@@ -39,9 +39,9 @@ class Client:
     def send_message(self):
         self.plot_graph(self.plot_message, 'Enviado')
         if self.is_host:
-            self.conn.send(self.encoded_message[0].encode())
+            self.conn.send(self.encoded_message.encode())
         else:
-            self.connection_socket.send(self.encoded_message[0].encode())
+            self.connection_socket.send(self.encoded_message.encode())
 
     def receive_message(self):
         if self.is_host:
@@ -49,15 +49,9 @@ class Client:
         else:
             e6b8b_code = self.connection_socket.recv(1024).decode()
 
-        bit_array = []
-        plot_data = list(''.join(e6b8b_code))
-        for bit in plot_data:
-            if bit == '+':
-                bit_array.append(1)
-            elif bit == '-':
-                bit_array.append(-1)
-            else:
-                bit_array.append(0)
+        #concatenate the message into one array for plotting
+        bit_array = np.array(e6b8b_code)
+        bit_array = np.concatenate(bit_array).astype(int)
 
         if plt.fignum_exists(True):
             plt.close()
