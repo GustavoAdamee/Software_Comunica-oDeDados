@@ -44,7 +44,6 @@ def binaryDecode(array):
     array = np.array(array)
     #concatenate the array into a string
     array = np.concatenate(array)
-    print(array)
     #printar grafico aqui
     string_ints = [str(int) for int in array]
     string_ints = ''.join(string_ints)
