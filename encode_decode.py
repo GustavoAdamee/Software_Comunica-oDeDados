@@ -2,16 +2,32 @@ import socket
 import numpy as np
 
 def caesar(data, key, mode):
+    # Define o alfabeto (letras minúsculas, maiúsculas e alguns caracteres acentuados)
     alphabet = 'abcdefghijklmnopqrstuvwyzàáãâéêóôõíúçABCDEFGHIJKLMNOPQRSTUVWYZÀÁÃÂÉÊÓÕÍÚÇ'
+    
+    # Inicializa uma string vazia para armazenar os dados criptografados ou descriptografados
     new_data = ''
+    
+    # Itera sobre cada caractere nos dados de entrada
     for c in data:
+        # Encontra o índice do caractere no alfabeto
         index = alphabet.find(c)
+        
+        # Verifica se o caractere não está no alfabeto
         if index == -1:
+            # Se não estiver, adiciona o caractere ao resultado sem alterações
             new_data += c
         else:
+            # Se o caractere estiver no alfabeto, calcula o novo índice com base na chave e no modo
             new_index = index + key if mode == 1 else index - key
+            
+            # Garante que o novo índice se ajuste se ultrapassar o comprimento do alfabeto
             new_index = new_index % len(alphabet)
+            
+            # Adiciona o novo caractere à string de resultado
             new_data += alphabet[new_index:new_index+1]
+    
+    # Retorna os dados criptografados ou descriptografados
     return new_data
 
 def asciiEncode(message):
