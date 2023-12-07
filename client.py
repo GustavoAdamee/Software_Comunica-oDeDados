@@ -35,6 +35,12 @@ class Client:
         self.binary_message = binaryEncode(self.ascii_message)
         self.plot_message = self.binary_message.copy()
         self.encoded_message = Encode6B8B(self.plot_message)
+        self.encoded_message = np.array(self.encoded_message)
+        #contatenate the message into one array
+        self.encoded_message = np.concatenate(self.encoded_message).astype(str).tolist()
+        #transform the list into a string
+        self.encoded_message = ''.join(self.encoded_message)
+            
 
     def send_message(self):
         self.plot_graph(self.plot_message, 'Enviado')
@@ -49,16 +55,24 @@ class Client:
         else:
             e6b8b_code = self.connection_socket.recv(1024).decode()
 
+        print(e6b8b_code)
+        aux_list = list(e6b8b_code)
         #concatenate the message into one array for plotting
-        bit_array = np.array(e6b8b_code)
-        bit_array = np.concatenate(bit_array).astype(int)
+        bit_array = np.array(aux_list)
+        print(bit_array)
+        # bit_array = np.concatenate(bit_array).astype(int)
 
         if plt.fignum_exists(True):
             plt.close()
 
         self.plot_graph(bit_array, 'Recebido')
 
-        self.encoded_message = e6b8b_code
+        aux = []
+        for i in range(0,len(aux_list),8):
+            chunk = aux_list[i:i+8]
+            aux.append(chunk)
+
+        self.encoded_message = aux
         self.binary_message = Decode6B8B(self.encoded_message)
         self.ascii_message = binaryDecode(self.binary_message)
         self.caesar = asciiDecode(self.ascii_message)
