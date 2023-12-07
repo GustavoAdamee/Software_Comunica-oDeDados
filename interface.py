@@ -156,7 +156,7 @@ class Interface:
 
         self.history_text.insert(tk.END, '- Codificado:\n')
 
-        self.history_text.insert(tk.END, self.client.encoded_message[0])
+        self.history_text.insert(tk.END, self.client.encoded_message)
         self.history_text.insert(tk.END, '\n\n\n\n')
 
         self.window.update()

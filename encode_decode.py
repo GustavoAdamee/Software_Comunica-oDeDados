@@ -217,7 +217,6 @@ def aply_decode_table(chunk):
     chunk_output_list = [int(i) for i in chunk_output_list]
     return chunk_output_list
 
-#TODO implement the 6b8b decoding
 def Decode6B8B(message):
     decoded_message = []
     for chunk in message:
