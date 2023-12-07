@@ -220,7 +220,7 @@ def aply_decode_table(chunk):
 def Decode6B8B(message):
     decoded_message = []
     for chunk in message:
-        if chunk[0] == 0 and chunk[1] == 1:
+        if chunk[0] == '0' and chunk[1] == '1':
             decoded_message.append(aply_decode_table(chunk))
         else:
             chunk.pop(0)
