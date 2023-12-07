@@ -55,13 +55,10 @@ class Client:
         else:
             e6b8b_code = self.connection_socket.recv(1024).decode()
 
-        print(e6b8b_code)
         aux_list = list(e6b8b_code)
         #concatenate the message into one array for plotting
         bit_array = np.array(aux_list)
-        print(bit_array)
-        # bit_array = np.concatenate(bit_array).astype(int)
-
+        
         if plt.fignum_exists(True):
             plt.close()
 
